@@ -546,7 +546,6 @@
         }
         
         function moveMaze(dir) {
-            stopHold();
             if (dir === 'up' && !maze[player.y][player.x].top) player.y--;
             if (dir === 'down' && !maze[player.y][player.x].bottom) player.y++;
             if (dir === 'left' && !maze[player.y][player.x].left) player.x--;
