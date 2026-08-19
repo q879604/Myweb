@@ -10,44 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --accent: #f093fb;
-            --bg-dark: #0a0a1a;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --glow-color: rgba(102, 126, 234, 0.5);
-        }
-        [data-theme="light"] {
-            --primary: #5a67d8;
-            --secondary: #6b46c1;
-            --accent: #d53f8c;
-            --bg-dark: #f7fafc;
-            --bg-card: rgba(255, 255, 255, 0.8);
-            --text-primary: #1a202c;
-            --text-secondary: rgba(0, 0, 0, 0.6);
-            --glow-color: rgba(90, 103, 216, 0.3);
-        }
+        :root { --primary: #667eea; --secondary: #764ba2; --accent: #f093fb; --bg-dark: #0a0a1a; --bg-card: rgba(255,255,255,0.05); --text-primary: #ffffff; --text-secondary: rgba(255,255,255,0.7); --glow-color: rgba(102,126,234,0.5); }
+        [data-theme="light"] { --primary: #5a67d8; --secondary: #6b46c1; --accent: #d53f8c; --bg-dark: #f7fafc; --bg-card: rgba(255,255,255,0.8); --text-primary: #1a202c; --text-secondary: rgba(0,0,0,0.6); --glow-color: rgba(90,103,216,0.3); }
         html, body { width: 100%; overflow-x: hidden; scroll-behavior: smooth; }
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-        .bg-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3e 50%, var(--bg-dark) 100%);
-            transition: background 0.3s ease;
-        }
-        .bg-gradient::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 70%, rgba(102,126,234,0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 30%, rgba(118,75,162,0.15) 0%, transparent 50%);
-            animation: bgMove 20s ease-in-out infinite alternate;
-        }
+        body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg-dark); color: var(--text-primary); transition: background 0.3s ease, color 0.3s ease; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3e 50%, var(--bg-dark) 100%); }
+        .bg-gradient::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 70%, rgba(102,126,234,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(118,75,162,0.15) 0%, transparent 50%); animation: bgMove 20s ease-in-out infinite alternate; }
         @keyframes bgMove { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(30px,30px) rotate(5deg); } }
         .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .particle { position: absolute; width: 4px; height: 4px; background: var(--text-secondary); border-radius: 50%; animation: rise linear infinite; opacity: 0.4; }
@@ -141,7 +109,7 @@
         .game-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px var(--glow-color); }
         .game-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .maze-controls, .snake-controls { display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; justify-content: center; margin-top: 1rem; }
-        .maze-btn { width: 60px; height: 60px; border-radius: 12px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 1.5rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
+        .maze-btn { width: 60px; height: 60px; border-radius: 12px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 1.5rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; user-select: none; -webkit-user-select: none; }
         .maze-btn:hover { background: var(--primary); }
         .maze-btn:active { transform: scale(0.95); }
         .footer { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; }
@@ -222,7 +190,7 @@
                         
                         <a href="#gallery" class="card" data-card data-delay="280" onclick="showGallery(event)">
                             <div class="card-icon icon-photo"><i class="fas fa-images"></i></div>
-                            <div class="card-body"><h3>照片集</h3><p>浏览我的摄影作品</p></div>
+                            <div class="card-body"><h3>照片集</h3><p>浏览我的作品</p></div>
                             <i class="fas fa-chevron-right card-arrow"></i>
                         </a>
                     </div>
@@ -264,11 +232,11 @@
             <canvas id="mazeCanvas" class="game-canvas"></canvas>
             <div class="maze-controls">
                 <div></div>
-                <button class="maze-btn" id="btn-up" onclick="startHold('up')" onmouseup="stopHold()"><i class="fas fa-arrow-up"></i></button>
+                <button class="maze-btn" id="btn-up" ontouchstart="startHold('up');return false;" onmousedown="startHold('up');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-up"></i></button>
                 <div></div>
-                <button class="maze-btn" id="btn-left" onclick="startHold('left')" onmouseup="stopHold()"><i class="fas fa-arrow-left"></i></button>
-                <button class="maze-btn" id="btn-down" onclick="startHold('down')" onmouseup="stopHold()"><i class="fas fa-arrow-down"></i></button>
-                <button class="maze-btn" id="btn-right" onclick="startHold('right')" onmouseup="stopHold()"><i class="fas fa-arrow-right"></i></button>
+                <button class="maze-btn" id="btn-left" ontouchstart="startHold('left');return false;" onmousedown="startHold('left');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-left"></i></button>
+                <button class="maze-btn" id="btn-down" ontouchstart="startHold('down');return false;" onmousedown="startHold('down');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-down"></i></button>
+                <button class="maze-btn" id="btn-right" ontouchstart="startHold('right');return false;" onmousedown="startHold('right');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-right"></i></button>
             </div>
             <div class="game-controls">
                 <button class="game-btn" onclick="newMaze()">新游戏</button>
@@ -293,11 +261,11 @@
             <canvas id="snakeCanvas" class="game-canvas"></canvas>
             <div class="snake-controls">
                 <div></div>
-                <button class="maze-btn" ontouchstart="changeSnakeDir('up');event.preventDefault();" onclick="changeSnakeDir('up')"><i class="fas fa-arrow-up"></i></button>
+                <button class="maze-btn" onclick="changeSnakeDir('up')"><i class="fas fa-arrow-up"></i></button>
                 <div></div>
-                <button class="maze-btn" ontouchstart="changeSnakeDir('left');event.preventDefault();" onclick="changeSnakeDir('left')"><i class="fas fa-arrow-left"></i></button>
-                <button class="maze-btn" ontouchstart="changeSnakeDir('down');event.preventDefault();" onclick="changeSnakeDir('down')"><i class="fas fa-arrow-down"></i></button>
-                <button class="maze-btn" ontouchstart="changeSnakeDir('right');event.preventDefault();" onclick="changeSnakeDir('right')"><i class="fas fa-arrow-right"></i></button>
+                <button class="maze-btn" onclick="changeSnakeDir('left')"><i class="fas fa-arrow-left"></i></button>
+                <button class="maze-btn" onclick="changeSnakeDir('down')"><i class="fas fa-arrow-down"></i></button>
+                <button class="maze-btn" onclick="changeSnakeDir('right')"><i class="fas fa-arrow-right"></i></button>
             </div>
             <div class="game-controls">
                 <button class="game-btn" id="snakeStartBtn" onclick="startSnake()">开始游戏</button>
@@ -416,6 +384,7 @@
         let mazeHoldTimer = null;
         
         function startHold(dir) {
+            if (mazeHoldTimer) clearInterval(mazeHoldTimer);
             moveMaze(dir);
             mazeHoldTimer = setInterval(() => moveMaze(dir), 150);
         }
@@ -551,11 +520,13 @@
             if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
             if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
             if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
+            
             if (moved) {
                 mazeSteps++;
                 updateMazeInfo();
                 drawMaze();
                 drawPlayer();
+                
                 if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
                     clearInterval(mazeTimer);
                     setTimeout(() => {
@@ -568,466 +539,7 @@
                 }
             }
         }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
-        }
+        
         function updateMazeInfo() {
             document.getElementById('mazeLevel').textContent = mazeLevel;
             document.getElementById('mazeSteps').textContent = mazeSteps;
@@ -1052,7 +564,7 @@
         let snakeCanvas, snakeCtx;
         let snake = [], food = {}, direction = 'right', nextDirection = 'right';
         let snakeInterval = null, snakeScore = 0, snakeBest = localStorage.getItem('snakeBest') || 0;
-        let snakeSpeed = 500; // 初始速度500ms（更慢）
+        let snakeSpeed = 500;
         
         function initSnake() {
             snakeCanvas = document.getElementById('snakeCanvas');
