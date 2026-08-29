@@ -10,7 +10,52 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --accent: #00d4ff; --glow: rgba(0,212,255,0.5); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.7); }
         body { font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: var(--text-primary); padding-top: 100px; padding-bottom: 80px; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.7); z-index: -1; }
+        body.light-mode { background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg'); background-color: #f5f5f5; }
+        body.light-mode::before { background: rgba(245,245,245,0.9); }
+        body.light-mode .card { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); }
+        body.light-mode .card-icon { filter: brightness(0.8); }
+        body.light-mode .card-title { color: #333; }
+        body.light-mode .card-desc { color: #666; }
+        body.light-mode .menu-item { background: rgba(255,255,255,0.5); color: #333; }
+        body.light-mode .expanded-menu { background: rgba(255,255,255,0.3); }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .theme-toggle svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+        body.light-mode .theme-toggle {
+            background: rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.1);
+        }
+        body.light-mode .theme-toggle svg {
+            fill: #fff;
+        }
+        body.light-mode .theme-toggle:hover {
+            background: rgba(0,0,0,0.12);
+        }
         .time-display { text-align: center; margin-bottom: 2rem; }
         .time-display .time { font-family: 'Orbitron', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent); text-shadow: 0 0 20px var(--glow); }
         .time-display .date { font-size: 1rem; color: var(--text-secondary); margin-top: 0.3rem; }
@@ -20,7 +65,9 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
         .card { position: relative; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.4s ease; overflow: visible; }
         .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--glow); }
-        .card.active { transform: scale(1.05); z-index: 200; pointer-events: auto; backdrop-filter: blur(15px); background: rgba(255,255,255,0.15); }
+        .card:not(.has-submenu):hover { transform: translateY(-5px); }
+        .card:not(.has-submenu):active { transform: scale(1.08); }
+        .card.active { transform: scale(1.05); z-index: 200; pointer-events: auto; }
         .card-icon { width: 80px; height: 80px; margin: 0 auto 1rem; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; transition: all 0.4s ease; }
         .card:hover .card-icon { transform: scale(1.1) rotate(5deg); }
         .card.active .card-icon { transform: scale(0); opacity: 0; }
@@ -33,9 +80,9 @@
         .card.active .card-title { opacity: 0; transform: translateY(-20px); }
         .card-desc { font-size: 0.85rem; color: var(--text-secondary); transition: all 0.3s ease; }
         .card.active .card-desc { opacity: 0; }
-        .expanded-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(-10px); display: flex; flex-direction: column; align-items: center; gap: 0.8rem; z-index: 200; } .card.active .expanded-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .card.active .expanded-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .menu-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(20,20,40,0.95); border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; text-decoration: none; color: var(--text-primary); padding: 0.9rem 1.3rem; min-width: 110px; transition: all 0.3s ease; }
+        .expanded-menu { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; flex-direction: row; gap: 1rem; padding: 1rem; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; z-index: 200; align-items: stretch; }
+        .card.active .expanded-menu { display: flex; }
+        .menu-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; text-decoration: none; color: var(--text-primary); padding: 1.2rem 1.5rem; flex: 1; transition: all 0.3s ease; min-height: 100%; }
         .menu-item:hover { background: rgba(0,212,255,0.3); border-color: var(--accent); transform: scale(1.05); }
         .menu-item i { font-size: 1.5rem; color: var(--accent); }
         .menu-item span { font-size: 0.9rem; font-weight: 500; }
@@ -45,7 +92,12 @@
     </style>
 </head>
 <body>
-    <div class="time-display"><div class="time" id="time">00:00:00</div><div class="date" id="date">加载中...</div></div>
+    <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+            <svg id="theme-icon" viewBox="0 0 24 24">
+                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/>
+            </svg>
+        </button>
+    <div class="time-display"><a href="https://beijingshijian.net/" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="time" id="time">00:00:00</div><div class="date" id="date">加载中...</div></a></div>
     <div class="header"><h1>GQ·个人导航栏</h1><p>Personal Navigation Center</p></div>
     <div class="grid">
         <div class="card" id="vnc-card" onclick="toggleCard('vnc-card')">
@@ -60,7 +112,7 @@
         <div class="card" id="alist-card" onclick="toggleCard('alist-card')">
             <div class="card-icon icon-alist"><i class="fas fa-cloud"></i></div>
             <div class="card-title">私人网盘</div>
-            <div class="card-desc">Alist 文件管理</div>
+            <div class="card-desc">Openlist搭建</div>
             <div class="expanded-menu">
                 <a href="http://100.96.22.89:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
                 <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
@@ -75,12 +127,12 @@
                 <a href="http://192.168.124.11:8080" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
         </div>
-        <div class="card" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf','_blank')">
+        <div class="card has-submenu" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf','_blank')">
             <div class="card-icon icon-adb"><i class="fas fa-mobile-alt"></i></div>
             <div class="card-title">ADB 助手</div>
             <div class="card-desc">密码: 1234</div>
         </div>
-        <div class="card" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234','_blank')">
+        <div class="card has-submenu" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234','_blank')">
             <div class="card-icon icon-vpn"><i class="fas fa-network-wired"></i></div>
             <div class="card-title">虚拟局域网</div>
             <div class="card-desc">LanProxy 组网</div>
@@ -89,7 +141,61 @@
     <div class="footer"><p>© 2026 GQ · Personal Navigation</p></div>
     <script>
         function updateTime() { const n=new Date(); document.getElementById('time').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0'); const d=['日','一','二','三','四','五','六'][n.getDay()]; document.getElementById('date').textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日 星期'+d; }
-        function toggleCard(id) { const c=document.getElementById(id); const isAct=c.classList.contains('active'); document.querySelectorAll('.card').forEach(x=>x.classList.remove('active')); if(!isAct) c.classList.add('active'); } document.addEventListener('click', function(e) { if (!e.target.closest('.card') && !e.target.closest('.expanded-menu')) { document.querySelectorAll('.card').forEach(c=>c.classList.remove('active')); } });
+        function toggleCard(id) { const c=document.getElementById(id); const isAct=c.classList.contains('active'); document.querySelectorAll('.card').forEach(x=>x.classList.remove('active')); if(!isAct) c.classList.add('active'); }
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            btn.innerHTML = isLight 
+                ? '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>'
+                : '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/></svg>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+        // 加载保存的主题
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const btn = document.querySelector('.theme-toggle');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>';
+            }
+        })();
+        document.addEventListener('click', function(e) {
+            const clickedCard = e.target.closest('.card');
+            const clickedMenu = e.target.closest('.expanded-menu');
+            if (!clickedCard && !clickedMenu) {
+                document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
+            } else if (clickedCard && !clickedCard.classList.contains('active')) {
+                document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
+                clickedCard.classList.add('active');
+            }
+            // 点击卡片边缘空隙也可以关闭菜单
+            if (clickedCard && clickedCard.classList.contains('active')) {
+                const menuRect = clickedCard.querySelector('.expanded-menu').getBoundingClientRect();
+                if (e.clientX < menuRect.left || e.clientX > menuRect.right || 
+                    e.clientY < menuRect.top || e.clientY > menuRect.bottom) {
+                    clickedCard.classList.remove('active');
+                }
+            }
+            if (clickedCard && !clickedCard.classList.contains('has-submenu') && !clickedCard.classList.contains('active')) {
+                setTimeout(() => {
+                    clickedCard.style.transform = '';
+                }, 300);
+            }
+        });
+        // 添加点击效果
+        document.querySelectorAll('.card.has-submenu').forEach(card => {
+            card.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(1.08)';
+            });
+            card.addEventListener('mouseup', function() {
+                this.style.transform = '';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
         function closeAll() { document.querySelectorAll('.card').forEach(c=>c.classList.remove('active')); }
         updateTime(); setInterval(updateTime,1000);
     </script>
