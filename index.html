@@ -26,6 +26,7 @@
             justify-content: center;
             padding: 2rem;
             color: var(--text-primary);
+            overflow-x: hidden;
         }
         .header {
             text-align: center;
@@ -63,13 +64,28 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: visible;
+            overflow: hidden;
         }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .card:hover::before { opacity: 1; }
         .card:hover {
             transform: translateY(-10px) scale(1.02);
             background: var(--card-hover);
             border-color: var(--accent);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--glow);
+        }
+        .card.active {
+            transform: scale(1.05);
+            z-index: 100;
+            pointer-events: none;
         }
         .card-icon {
             width: 80px;
@@ -80,10 +96,14 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
         }
         .card:hover .card-icon {
             transform: scale(1.1) rotate(5deg);
+        }
+        .card.active .card-icon {
+            transform: scale(0);
+            opacity: 0;
         }
         .icon-vnc { background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
         .icon-alist { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4); }
@@ -93,56 +113,67 @@
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
+            transition: all 0.3s ease;
+        }
+        .card.active .card-title {
+            opacity: 0;
+            transform: translateY(-20px);
         }
         .card-desc {
             font-size: 0.85rem;
             color: var(--text-secondary);
+            transition: all 0.3s ease;
         }
-        /* 下拉菜单 */
-        .dropdown {
+        .card.active .card-desc {
+            opacity: 0;
+        }
+        /* 展开菜单 */
+        .expanded-menu {
             position: absolute;
-            top: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px);
-            background: rgba(20, 20, 40, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 0.5rem 0;
-            min-width: 180px;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 1rem;
         }
-        .card:hover .dropdown {
+        .card.active .expanded-menu {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0);
         }
-        .dropdown-item {
+        .menu-item {
+            flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 1.2rem;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: background 0.2s ease;
-        }
-        .dropdown-item:hover {
-            background: rgba(233, 69, 96, 0.2);
-        }
-        .dropdown-item i {
-            color: var(--accent);
-            width: 20px;
-            text-align: center;
-        }
-        .dropdown-divider {
-            height: 1px;
+            justify-content: center;
+            gap: 0.5rem;
             background: rgba(255, 255, 255, 0.1);
-            margin: 0.5rem 0;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        .card.active .menu-item {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .card.active .menu-item:nth-child(1) { transition-delay: 0.1s; }
+        .card.active .menu-item:nth-child(2) { transition-delay: 0.2s; }
+        .menu-item:hover {
+            background: rgba(233, 69, 96, 0.3);
+            transform: scale(1.05);
+        }
+        .menu-item i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        .menu-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         /* 时间显示 */
         .time-display {
@@ -168,6 +199,21 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
+        /* 点击遮罩 */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
         @media (max-width: 768px) {
             .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
             .card { padding: 1.5rem 1rem; }
@@ -192,20 +238,22 @@
         <p>个人导航中心</p>
     </div>
     
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+    
     <div class="grid">
         <!-- VNC 远控 -->
-        <div class="card">
+        <div class="card" id="vnc-card" onclick="toggleCard('vnc-card')">
             <div class="card-icon icon-vnc">
                 <i class="fas fa-desktop"></i>
             </div>
             <div class="card-title">VNC 远控</div>
             <div class="card-desc">远程桌面控制</div>
-            <div class="dropdown">
-                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="dropdown-item">
+            <div class="expanded-menu">
+                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="dropdown-item">
+                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -213,18 +261,18 @@
         </div>
         
         <!-- Alist 网盘 -->
-        <div class="card">
+        <div class="card" id="alist-card" onclick="toggleCard('alist-card')">
             <div class="card-icon icon-alist">
                 <i class="fas fa-cloud"></i>
             </div>
             <div class="card-title">私人网盘</div>
             <div class="card-desc">Alist 文件管理</div>
-            <div class="dropdown">
-                <a href="http://100.96.22.89:5244" target="_blank" class="dropdown-item">
+            <div class="expanded-menu">
+                <a href="http://100.96.22.89:5244" target="_blank" class="menu-item">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5244" target="_blank" class="dropdown-item">
+                <a href="http://192.168.124.11:5244" target="_blank" class="menu-item">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -232,18 +280,18 @@
         </div>
         
         <!-- 维基百科 -->
-        <div class="card">
+        <div class="card" id="wiki-card" onclick="toggleCard('wiki-card')">
             <div class="card-icon icon-wiki">
                 <i class="fab fa-wikipedia-w"></i>
             </div>
             <div class="card-title">维基百科</div>
             <div class="card-desc">知识搜索</div>
-            <div class="dropdown">
-                <a href="http://100.96.22.89:8080" target="_blank" class="dropdown-item">
+            <div class="expanded-menu">
+                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:8080" target="_blank" class="dropdown-item">
+                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -279,6 +327,29 @@
             const weekDay = weekDays[now.getDay()];
             document.getElementById('date').textContent = `${year}-${month}-${day} ${weekDay}`;
         }
+        
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            const overlay = document.getElementById('overlay');
+            const isActive = card.classList.contains('active');
+            
+            // 关闭所有其他卡片
+            closeAll();
+            
+            // 如果当前卡片未激活，则激活它
+            if (!isActive) {
+                card.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+        
+        function closeAll() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
         updateTime();
         setInterval(updateTime, 1000);
     </script>
