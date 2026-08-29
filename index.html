@@ -22,10 +22,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 2rem;
+            padding-top: 7rem;
+            padding-bottom: 5rem;
             color: var(--text-primary);
             overflow-x: hidden;
+            background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -43,11 +46,14 @@
         /* 时间显示 - 顶部中央 */
         .time-display {
             position: fixed;
-            top: 2rem;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
-            z-index: 100;
+            z-index: 200;
+            width: 100%;
+            padding-top: 1.2rem;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 100%);
         }
         .time-display .time {
             font-family: 'Orbitron', monospace;
@@ -94,17 +100,17 @@
         }
         .card {
             position: relative;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
             padding: 2.5rem 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
         }
         .card::before {
             content: '';
@@ -232,10 +238,11 @@
             width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            z-index: 50;
+            z-index: 90;
         }
         .overlay.active {
             opacity: 1;
@@ -244,11 +251,18 @@
         /* 底部信息 */
         .footer {
             position: fixed;
-            bottom: 2.5rem;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.85rem;
             letter-spacing: 0.1em;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
         }
         @media (max-width: 768px) {
             .grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
@@ -264,7 +278,7 @@
         }
     </style>
 </head>
-<body style="background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg');">
+<body>
     <!-- 时间显示 -->
     <div class="time-display">
         <div class="time" id="time">00:00:00</div>
@@ -287,11 +301,11 @@
             <div class="card-title">VNC 远控</div>
             <div class="card-desc">远程桌面控制</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556')">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556')">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -306,11 +320,11 @@
             <div class="card-title">私人网盘</div>
             <div class="card-desc">Alist 文件管理</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:5244" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://100.96.22.89:5244')">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://192.168.124.11:5244')">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -325,11 +339,11 @@
             <div class="card-title">维基百科</div>
             <div class="card-desc">知识搜索</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://100.96.22.89:8080')">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item" onclick="event.stopPropagation()">
+                <a href="javascript:void(0)" class="menu-item" onclick="event.stopPropagation(); openLink('http://192.168.124.11:8080')">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -337,7 +351,7 @@
         </div>
         
         <!-- ADB 助手 -->
-        <div class="card" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf', '_blank')">
+        <div class="card" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf', '_system')">
             <div class="card-icon icon-adb">
                 <i class="fas fa-mobile-alt"></i>
             </div>
@@ -346,7 +360,7 @@
         </div>
         
         <!-- 虚拟局域网 -->
-        <div class="card" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234', '_blank')">
+        <div class="card" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234', '_system')">
             <div class="card-icon icon-vpn">
                 <i class="fas fa-network-wired"></i>
             </div>
@@ -373,6 +387,10 @@
             const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
             const weekDay = weekDays[now.getDay()];
             document.getElementById('date').textContent = `${year}年${month}月${day}日 ${weekDay}`;
+        }
+        
+        function openLink(url) {
+            window.open(url, '_system');
         }
         
         function toggleCard(cardId) {
