@@ -2,706 +2,285 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GQ - 主页</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GQ - 个人导航</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary: #667eea; --secondary: #764ba2; --accent: #f093fb; --bg-dark: #0a0a1a; --bg-card: rgba(255,255,255,0.05); --text-primary: #ffffff; --text-secondary: rgba(255,255,255,0.7); --glow-color: rgba(102,126,234,0.5); }
-        [data-theme="light"] { --primary: #5a67d8; --secondary: #6b46c1; --accent: #d53f8c; --bg-dark: #f7fafc; --bg-card: rgba(255,255,255,0.8); --text-primary: #1a202c; --text-secondary: rgba(0,0,0,0.6); --glow-color: rgba(90,103,216,0.3); }
-        html, body { width: 100%; overflow-x: hidden; scroll-behavior: smooth; }
-        body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg-dark); color: var(--text-primary); transition: background 0.3s ease, color 0.3s ease; }
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3e 50%, var(--bg-dark) 100%); }
-        .bg-gradient::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 70%, rgba(102,126,234,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(118,75,162,0.15) 0%, transparent 50%); animation: bgMove 20s ease-in-out infinite alternate; }
-        @keyframes bgMove { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(30px,30px) rotate(5deg); } }
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; width: 4px; height: 4px; background: var(--text-secondary); border-radius: 50%; animation: rise linear infinite; opacity: 0.4; }
-        @keyframes rise { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 20% { opacity: 0.4; } 80% { opacity: 0.4; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
-        .theme-toggle { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10000; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--text-secondary); background: var(--bg-card); backdrop-filter: blur(10px); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .theme-toggle:hover { transform: scale(1.1) rotate(15deg); border-color: var(--primary); box-shadow: 0 0 20px var(--glow-color); }
-        .theme-toggle .fa-moon { display: none; } .theme-toggle .fa-sun { display: block; }
-        [data-theme="light"] .theme-toggle .fa-moon { display: block; } [data-theme="light"] .theme-toggle .fa-sun { display: none; }
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: sticky; top: 0; z-index: 10; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease; width: 100%; }
-        .hero.scrolled { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        .hero-title { font-size: clamp(5rem,15vw,12rem); font-weight: 900; letter-spacing: 0.15em; background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glow 3s ease-in-out infinite alternate; line-height: 1; text-shadow: 0 0 80px var(--glow-color); }
-        @keyframes glow { 0% { filter: drop-shadow(0 0 20px var(--glow-color)); } 100% { filter: drop-shadow(0 0 50px var(--accent)); } }
-        .hero-subtitle { font-size: clamp(1rem,3vw,1.5rem); color: var(--text-secondary); font-weight: 300; letter-spacing: 0.4em; margin-top: 1.5rem; opacity: 0; animation: fadeIn 1s ease forwards 0.3s; }
-        .scroll-hint { position: absolute; bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeIn 1s ease forwards 1s; }
-        .scroll-hint span { font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.3em; text-transform: uppercase; }
-        .scroll-arrow { width: 20px; height: 20px; border-right: 2px solid var(--text-secondary); border-bottom: 2px solid var(--text-secondary); transform: rotate(45deg); animation: bounce 2s ease-in-out infinite; }
-        @keyframes bounce { 0%,100% { transform: rotate(45deg) translate(0,0); opacity: 0.4; } 50% { transform: rotate(45deg) translate(6px,6px); opacity: 1; } }
-        @keyframes fadeIn { to { opacity: 1; } }
-        .content { min-height: 100vh; padding: 4rem 1rem; max-width: 100%; margin: 0 auto; width: 100%; }
-        .tabs-container { max-width: 800px; margin: 0 auto; }
-        .tabs-header { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; }
-        .tab-btn { flex: 1; max-width: 200px; padding: 1rem 2rem; background: var(--bg-card); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; color: var(--text-primary); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; backdrop-filter: blur(10px); }
-        [data-theme="light"] .tab-btn { border-color: rgba(0,0,0,0.1); }
-        .tab-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
-        .tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-color: transparent; box-shadow: 0 10px 30px var(--glow-color); }
-        .tab-btn i { font-size: 1.2rem; }
-        .tab-content { display: none; animation: fadeIn 0.5s ease; }
-        .tab-content.active { display: block; }
-        .section-label, .section-title { text-align: center; opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
-        .section-label.visible, .section-title.visible { opacity: 1; transform: translateY(0); }
-        .section-label { font-size: 0.85rem; color: var(--text-secondary); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
-        .section-title { font-size: clamp(1.5rem,4vw,2.2rem); font-weight: 700; margin-bottom: 3rem; }
-        .section-title::after { content: ''; display: block; width: 50px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); margin: 1rem auto 0; border-radius: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.2rem; max-width: 900px; margin: 0 auto; }
-        .card { background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 1.8rem; text-decoration: none; color: var(--text-primary); display: flex; align-items: center; gap: 1.2rem; transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); opacity: 0; transform: translateY(30px); position: relative; overflow: visible !important; cursor: pointer; z-index: 1; width: 100%; }
-        .card:hover { z-index: 100; }
-        [data-theme="light"] .card { border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1)); opacity: 0; transition: opacity 0.4s ease; }
-        .card:hover::before { opacity: 1; }
-        .card.visible { opacity: 1; transform: translateY(0); }
-        .card:hover { transform: translateY(-5px) scale(1.02); border-color: var(--primary); box-shadow: 0 15px 40px var(--glow-color), 0 0 40px var(--glow-color); }
-        .card-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; transition: transform 0.4s ease; position: relative; z-index: 1; }
-        .card:hover .card-icon { transform: scale(1.1); }
-        .icon-qq { background: linear-gradient(135deg, #12B7F5, #00AAFF); box-shadow: 0 6px 20px rgba(18,183,245,0.35); }
-        .icon-wechat { background: linear-gradient(135deg, #07C160, #109E4B); box-shadow: 0 6px 20px rgba(7,193,96,0.35); }
-        .icon-bilibili { background: linear-gradient(135deg, #FB7299, #FC4F7B); box-shadow: 0 6px 20px rgba(251,114,153,0.35); }
-        .icon-github { background: linear-gradient(135deg, #6E5494, #333); box-shadow: 0 6px 20px rgba(110,84,148,0.35); }
-        .icon-email { background: linear-gradient(135deg, #EA4335, #FBBC04); box-shadow: 0 6px 20px rgba(234,67,53,0.35); }
-        .icon-photo { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 6px 20px rgba(240,147,251,0.35); }
-        .icon-game { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 6px 20px rgba(240,147,251,0.35); }
-        .card-body { flex: 1; position: relative; z-index: 1; }
-        .card-body h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
-        .card-body p { font-size: 0.85rem; color: var(--text-secondary); }
-        .card-arrow { color: var(--text-secondary); font-size: 1rem; transition: transform 0.3s ease; position: relative; z-index: 1; }
-        .card:hover .card-arrow { transform: translateX(4px); color: var(--accent); }
-        .dropdown-wrapper { position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; max-width: 90vw; background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000 !important; box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px var(--glow-color); pointer-events: none; }
-        [data-theme="light"] .dropdown-wrapper { border-color: rgba(0,0,0,0.15); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-        .card.open .dropdown-wrapper { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-        .dropdown-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; transition: background 0.2s ease; cursor: pointer; white-space: nowrap; border-radius: 8px; margin: 0 4px; }
-        .dropdown-item:hover { background: rgba(102,126,234,0.15); }
-        .dropdown-item i { width: 20px; text-align: center; color: var(--primary); }
-        .dropdown-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 6px 12px; }
-        [data-theme="light"] .dropdown-divider { background: rgba(0,0,0,0.1); }
-        .submenu-wrapper { position: relative; }
-        .submenu { position: absolute; left: 100%; top: -8px; margin-left: 8px; min-width: 180px; max-width: 85vw; background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: all 0.2s ease; z-index: 1001 !important; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
-        [data-theme="light"] .submenu { border-color: rgba(0,0,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
-        .submenu-wrapper:hover .submenu { opacity: 1; visibility: visible; transform: translateX(0); }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
-        .game-card { background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.4s ease; opacity: 0; transform: translateY(30px); }
-        .game-card.visible { opacity: 1; transform: translateY(0); }
-        [data-theme="light"] .game-card { border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .game-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--primary); box-shadow: 0 20px 50px var(--glow-color); }
-        .game-icon { width: 80px; height: 80px; border-radius: 20px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--accent)); box-shadow: 0 10px 30px var(--glow-color); }
-        .game-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .game-card p { color: var(--text-secondary); font-size: 0.9rem; }
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100000; justify-content: center; align-items: center; padding: 1rem; }
-        .game-modal.active { display: flex; }
-        .game-container { background: var(--bg-card); border-radius: 20px; padding: 1.5rem; max-width: 500px; width: 100%; max-height: 90vh; overflow: auto; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-        [data-theme="light"] .game-container { border-color: rgba(0,0,0,0.1); }
-        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .game-header h2 { font-size: 1.5rem; }
-        .game-close { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; }
-        .game-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
-        .game-info { display: flex; justify-content: space-around; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .game-info div { text-align: center; }
-        .game-info span { display: block; font-size: 0.8rem; color: var(--text-secondary); }
-        .game-info strong { font-size: 1.2rem; color: var(--accent); }
-        .game-canvas { width: 100%; max-width: 500px; display: block; margin: 0 auto; border-radius: 10px; }
-        .game-controls { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
-        .game-btn { padding: 0.8rem 1.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; border-radius: 10px; color: white; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; font-weight: 600; }
-        .game-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px var(--glow-color); }
-        .game-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .maze-controls, .snake-controls { display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; justify-content: center; margin-top: 1rem; }
-        .maze-btn { width: 60px; height: 60px; border-radius: 12px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 1.5rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; user-select: none; -webkit-user-select: none; }
-        .maze-btn:hover { background: var(--primary); }
-        .maze-btn:active { transform: scale(0.95); }
-        .footer { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; }
-        [data-theme="light"] .footer { border-top-color: rgba(0,0,0,0.1); }
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #e94560;
+            --glow: rgba(233, 69, 96, 0.4);
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--text-primary);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, #e94560);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: visible;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: var(--card-hover);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--glow);
+        }
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .icon-vnc { background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+        .icon-alist { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4); }
+        .icon-wiki { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
+        .icon-adb { background: linear-gradient(135deg, #43e97b, #38f9d7); box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4); }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        /* 下拉菜单 */
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: rgba(20, 20, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 0.5rem 0;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        .card:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.2rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+        .dropdown-item:hover {
+            background: rgba(233, 69, 96, 0.2);
+        }
+        .dropdown-item i {
+            color: var(--accent);
+            width: 20px;
+            text-align: center;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+        }
+        /* 时间显示 */
+        .time-display {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            text-align: right;
+        }
+        .time-display .time {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+        .time-display .date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        /* 底部信息 */
+        .footer {
+            position: fixed;
+            bottom: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .card { padding: 1.5rem 1rem; }
+            .card-icon { width: 60px; height: 60px; font-size: 2rem; }
+            .header h1 { font-size: 2rem; }
+            .time-display { top: 1rem; right: 1rem; }
+            .time-display .time { font-size: 1.5rem; }
+        }
         @media (max-width: 480px) {
             .grid { grid-template-columns: 1fr; }
-            .card { padding: 1.4rem; }
-            .theme-toggle { width: 44px; height: 44px; font-size: 1.1rem; }
-            .tabs-header { flex-direction: column; align-items: center; }
-            .tab-btn { max-width: 100%; width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    <div class="particles" id="particles"></div>
-    <button class="theme-toggle" id="themeToggle" title="切换主题"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
-    
-    <div id="mainPage">
-        <section class="hero" id="hero">
-            <h1 class="hero-title">GQ</h1>
-            <p class="hero-subtitle">欢迎来到我的个人主页</p>
-            <div class="scroll-hint"><span>向上滑动</span><div class="scroll-arrow"></div></div>
-        </section>
-        
-        <section class="content" id="content">
-            <p class="section-label" data-animate>探索更多</p>
-            <h2 class="section-title" data-animate>选择你感兴趣的</h2>
-            
-            <div class="tabs-container">
-                <div class="tabs-header">
-                    <button class="tab-btn active" onclick="switchTab('contact')"><i class="fas fa-address-book"></i><span>联系我</span></button>
-                    <button class="tab-btn" onclick="switchTab('games')"><i class="fas fa-gamepad"></i><span>游戏</span></button>
-                </div>
-                
-                <div id="contactTab" class="tab-content active">
-                    <div class="grid">
-                        <div class="card" data-card data-delay="0" id="qqCard">
-                            <div class="card-icon icon-qq"><i class="fab fa-qq"></i></div>
-                            <div class="card-body"><h3>QQ 联系</h3><p>2205003852</p></div>
-                            <i class="fas fa-chevron-right card-arrow"></i>
-                            <div class="dropdown-wrapper" id="qqDropdown">
-                                <a href="https://user.qzone.qq.com/2205003852" target="_blank" class="dropdown-item" onclick="closeDropdowns()"><i class="fas fa-home"></i><span>访问主页</span></a>
-                                <div class="dropdown-divider"></div>
-                                <div class="submenu-wrapper">
-                                    <div class="dropdown-item"><i class="fas fa-user-plus"></i><span>添加好友</span><i class="fas fa-chevron-right" style="margin-left: auto; font-size: 0.75rem;"></i></div>
-                                    <div class="submenu">
-                                        <div class="dropdown-item" onclick="copyQQ('2205003852'); closeDropdowns();"><i class="fas fa-copy"></i><span>复制 QQ 号</span></div>
-                                        <a href="mqqwpa://im/chat?chat_type=wpa&uin=2205003852&version=1&src_type=web&web_src=oicqzone.com" target="_blank" class="dropdown-item" onclick="closeDropdowns()"><i class="fab fa-qq"></i><span>打开 QQ</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card" data-card data-delay="80">
-                            <div class="card-icon icon-wechat"><i class="fab fa-weixin"></i></div>
-                            <div class="card-body"><h3>微信联系</h3><p>微信号: q677xl</p></div>
-                            <i class="fas fa-copy card-arrow" title="点击复制" onclick="copyWeChat()"></i>
-                        </div>
-                        
-                        <a href="https://space.bilibili.com/3546863106001033" class="card" target="_blank" rel="noopener noreferrer" data-card data-delay="160">
-                            <div class="card-icon icon-bilibili"><i class="fab fa-bilibili"></i></div>
-                            <div class="card-body"><h3>B站关注</h3><p>UID: 3546863106001033</p></div>
-                            <i class="fas fa-chevron-right card-arrow"></i>
-                        </a>
-                        
-                        <a href="https://github.com/q879604/Myweb" class="card" target="_blank" rel="noopener noreferrer" data-card data-delay="200">
-                            <div class="card-icon icon-github"><i class="fab fa-github"></i></div>
-                            <div class="card-body"><h3>GitHub 仓库</h3><p>查看项目源码</p></div>
-                            <i class="fas fa-chevron-right card-arrow"></i>
-                        </a>
-                        
-                        <a href="mailto:2205003852@qq.com" class="card" data-card data-delay="240">
-                            <div class="card-icon icon-email"><i class="fas fa-envelope"></i></div>
-                            <div class="card-body"><h3>发送邮件</h3><p>2205003852@qq.com</p></div>
-                            <i class="fas fa-chevron-right card-arrow"></i>
-                        </a>
-                        
-                        <a href="#gallery" class="card" data-card data-delay="280" onclick="showGallery(event)">
-                            <div class="card-icon icon-photo"><i class="fas fa-images"></i></div>
-                            <div class="card-body"><h3>照片集</h3><p>浏览我的作品</p></div>
-                            <i class="fas fa-chevron-right card-arrow"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div id="gamesTab" class="tab-content">
-                    <div class="games-grid">
-                        <div class="game-card" data-card data-delay="0" onclick="openGame('maze')">
-                            <div class="game-icon"><i class="fas fa-map"></i></div>
-                            <h3>🏃 迷宫逃脱</h3>
-                            <p>在复杂的迷宫中找到出口，挑战你的方向感！</p>
-                        </div>
-                        
-                        <div class="game-card" data-card data-delay="100" onclick="openGame('snake')">
-                            <div class="game-icon"><i class="fas fa-dragon"></i></div>
-                            <h3>🐍 贪吃蛇</h3>
-                            <p>经典怀旧游戏，吃豆子变长，小心别撞到自己！</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <footer class="footer"><p>© 2026 GQ · All Rights Reserved</p></footer>
+    <div class="time-display">
+        <div class="time" id="time">00:00</div>
+        <div class="date" id="date">加载中...</div>
     </div>
     
-    <!-- 迷宫游戏 -->
-    <div class="game-modal" id="mazeModal">
-        <div class="game-container">
-            <div class="game-header">
-                <h2>🏃 迷宫逃脱</h2>
-                <button class="game-close" onclick="closeGame('maze')"><i class="fas fa-times"></i></button>
+    <div class="header">
+        <h1>GQ</h1>
+        <p>个人导航中心</p>
+    </div>
+    
+    <div class="grid">
+        <!-- VNC 远控 -->
+        <div class="card">
+            <div class="card-icon icon-vnc">
+                <i class="fas fa-desktop"></i>
             </div>
-            <div class="game-info">
-                <div><span>关卡</span><strong id="mazeLevel">1</strong></div>
-                <div><span>步数</span><strong id="mazeSteps">0</strong></div>
-                <div><span>时间</span><strong id="mazeTime">0:00</strong></div>
+            <div class="card-title">VNC 远控</div>
+            <div class="card-desc">远程桌面控制</div>
+            <div class="dropdown">
+                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="dropdown-item">
+                    <i class="fas fa-globe"></i>
+                    <span>外网访问</span>
+                </a>
+                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="dropdown-item">
+                    <i class="fas fa-home"></i>
+                    <span>内网访问</span>
+                </a>
             </div>
-            <canvas id="mazeCanvas" class="game-canvas"></canvas>
-            <div class="maze-controls">
-                <div></div>
-                <button class="maze-btn" id="btn-up" ontouchstart="startHold('up');return false;" onmousedown="startHold('up');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-up"></i></button>
-                <div></div>
-                <button class="maze-btn" id="btn-left" ontouchstart="startHold('left');return false;" onmousedown="startHold('left');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-left"></i></button>
-                <button class="maze-btn" id="btn-down" ontouchstart="startHold('down');return false;" onmousedown="startHold('down');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-down"></i></button>
-                <button class="maze-btn" id="btn-right" ontouchstart="startHold('right');return false;" onmousedown="startHold('right');return false;" onmouseup="stopHold();" onmouseleave="stopHold();"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        
+        <!-- Alist 网盘 -->
+        <div class="card">
+            <div class="card-icon icon-alist">
+                <i class="fas fa-cloud"></i>
             </div>
-            <div class="game-controls">
-                <button class="game-btn" onclick="newMaze()">新游戏</button>
-                <button class="game-btn" onclick="changeMazeLevel(-1)">难度-</button>
-                <button class="game-btn" onclick="changeMazeLevel(1)">难度+</button>
+            <div class="card-title">私人网盘</div>
+            <div class="card-desc">Alist 文件管理</div>
+            <div class="dropdown">
+                <a href="http://100.96.22.89:5244" target="_blank" class="dropdown-item">
+                    <i class="fas fa-globe"></i>
+                    <span>外网访问</span>
+                </a>
+                <a href="http://192.168.124.11:5244" target="_blank" class="dropdown-item">
+                    <i class="fas fa-home"></i>
+                    <span>内网访问</span>
+                </a>
             </div>
+        </div>
+        
+        <!-- 维基百科 -->
+        <div class="card">
+            <div class="card-icon icon-wiki">
+                <i class="fab fa-wikipedia-w"></i>
+            </div>
+            <div class="card-title">维基百科</div>
+            <div class="card-desc">知识搜索</div>
+            <div class="dropdown">
+                <a href="http://100.96.22.89:8080" target="_blank" class="dropdown-item">
+                    <i class="fas fa-globe"></i>
+                    <span>外网访问</span>
+                </a>
+                <a href="http://192.168.124.11:8080" target="_blank" class="dropdown-item">
+                    <i class="fas fa-home"></i>
+                    <span>内网访问</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- ADB 助手 -->
+        <div class="card" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf', '_blank')">
+            <div class="card-icon icon-adb">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="card-title">ADB 助手</div>
+            <div class="card-desc">密码: 1234</div>
         </div>
     </div>
     
-    <!-- 贪吃蛇游戏 -->
-    <div class="game-modal" id="snakeModal">
-        <div class="game-container">
-            <div class="game-header">
-                <h2>🐍 贪吃蛇</h2>
-                <button class="game-close" onclick="closeGame('snake')"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="game-info">
-                <div><span>分数</span><strong id="snakeScore">0</strong></div>
-                <div><span>最高分</span><strong id="snakeBest">0</strong></div>
-                <div><span>长度</span><strong id="snakeLength">3</strong></div>
-            </div>
-            <canvas id="snakeCanvas" class="game-canvas"></canvas>
-            <div class="snake-controls">
-                <div></div>
-                <button class="maze-btn" onclick="changeSnakeDir('up')"><i class="fas fa-arrow-up"></i></button>
-                <div></div>
-                <button class="maze-btn" onclick="changeSnakeDir('left')"><i class="fas fa-arrow-left"></i></button>
-                <button class="maze-btn" onclick="changeSnakeDir('down')"><i class="fas fa-arrow-down"></i></button>
-                <button class="maze-btn" onclick="changeSnakeDir('right')"><i class="fas fa-arrow-right"></i></button>
-            </div>
-            <div class="game-controls">
-                <button class="game-btn" id="snakeStartBtn" onclick="startSnake()">开始游戏</button>
-                <button class="game-btn" onclick="resetSnake()">重置</button>
-            </div>
-        </div>
+    <div class="footer">
+        <p>© 2026 GQ · Personal Navigation</p>
     </div>
     
     <script>
-        // 粒子效果
-        const pc = document.getElementById('particles');
-        for (let i = 0; i < 25; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            p.style.animationDelay = (Math.random() * 15) + 's';
-            p.style.width = p.style.height = (Math.random() * 3 + 2) + 'px';
-            pc.appendChild(p);
-        }
-        
-        // Hero 滚动
-        const hero = document.getElementById('hero');
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    if (window.scrollY > 80) { hero.classList.add('scrolled'); }
-                    else { hero.classList.remove('scrolled'); }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-        
-        // 入场动画
-        const animEls = document.querySelectorAll('[data-animate], [data-card]');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const delay = parseInt(entry.target.dataset.delay || 0);
-                    setTimeout(() => entry.target.classList.add('visible'), delay);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        animEls.forEach(el => observer.observe(el));
-        
-        // QQ 下拉菜单
-        const qqCard = document.getElementById('qqCard');
-        let isQQOpen = false;
-        qqCard.addEventListener('click', function(e) {
-            if (e.target.closest('.dropdown-wrapper')) return;
-            e.stopPropagation();
-            if (isQQOpen) { closeDropdowns(); }
-            else { closeDropdowns(); this.classList.add('open'); isQQOpen = true; }
-        });
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('#qqCard') && !e.target.closest('.dropdown-wrapper')) { closeDropdowns(); }
-        });
-        function closeDropdowns() {
-            document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
-            isQQOpen = false;
-        }
-        
-        // 复制功能
-        function copyQQ(qq) {
-            navigator.clipboard.writeText(qq).then(() => showToast('QQ 号已复制：' + qq));
-        }
-        function copyWeChat() {
-            navigator.clipboard.writeText('q677xl').then(() => showToast('微信号已复制：q677xl'));
-        }
-        function showToast(msg) {
-            const toast = document.createElement('div');
-            toast.textContent = msg;
-            toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(102,126,234,0.9);color:#fff;padding:0.6rem 1.5rem;border-radius:30px;font-size:0.9rem;z-index:99999;animation:fadeInUp 0.3s ease;pointer-events:none;';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
-        }
-        
-        // 主题切换
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) { html.setAttribute('data-theme', savedTheme); }
-        else if (window.matchMedia('(prefers-color-scheme: light)').matches) { html.setAttribute('data-theme', 'light'); }
-        themeToggle.addEventListener('click', () => {
-            const current = html.getAttribute('data-theme');
-            const next = current === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-        });
-        
-        // 选项卡切换
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            if (tab === 'contact') {
-                document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
-                document.getElementById('contactTab').classList.add('active');
-            } else {
-                document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
-                document.getElementById('gamesTab').classList.add('active');
-            }
-        }
-        
-        // ============ 迷宫游戏 ============
-        let mazeCanvas, mazeCtx;
-        let maze = [];
-        let player = { x: 0, y: 0 };
-        let mazeLevel = 1;
-        let mazeSteps = 0;
-        let mazeTimer = null;
-        let mazeStartTime = null;
-        let mazeSize = 10;
-        let mazeHoldTimer = null;
-        
-        function startHold(dir) {
-            if (mazeHoldTimer) clearInterval(mazeHoldTimer);
-            moveMaze(dir);
-            mazeHoldTimer = setInterval(() => moveMaze(dir), 150);
-        }
-        
-        function stopHold() {
-            if (mazeHoldTimer) {
-                clearInterval(mazeHoldTimer);
-                mazeHoldTimer = null;
-            }
-        }
-        
-        function openGame(game) {
-            if (game === 'maze') {
-                document.getElementById('mazeModal').classList.add('active');
-                initMaze();
-            } else if (game === 'snake') {
-                document.getElementById('snakeModal').classList.add('active');
-                initSnake();
-            }
-        }
-        
-        function closeGame(game) {
-            if (game === 'maze') {
-                document.getElementById('mazeModal').classList.remove('active');
-                if (mazeTimer) clearInterval(mazeTimer);
-                stopHold();
-            } else if (game === 'snake') {
-                document.getElementById('snakeModal').classList.remove('active');
-                if (snakeInterval) clearInterval(snakeInterval);
-                snakeInterval = null;
-            }
-        }
-        
-        function initMaze() {
-            mazeCanvas = document.getElementById('mazeCanvas');
-            mazeCtx = mazeCanvas.getContext('2d');
-            const size = Math.min(window.innerWidth - 40, 500);
-            mazeCanvas.width = size;
-            mazeCanvas.height = size;
-            generateMaze();
-            drawMaze();
-            resetMazePlayer();
-        }
-        
-        function generateMaze() {
-            mazeSize = 5 + mazeLevel * 2;
-            maze = [];
-            for (let y = 0; y < mazeSize; y++) {
-                maze[y] = [];
-                for (let x = 0; x < mazeSize; x++) {
-                    maze[y][x] = { top: true, right: true, bottom: true, left: true, visited: false };
-                }
-            }
-            let stack = [], current = { x: 0, y: 0 };
-            maze[0][0].visited = true;
-            stack.push(current);
-            while (stack.length > 0) {
-                let neighbors = [], { x, y } = current;
-                if (y > 0 && !maze[y-1][x].visited) neighbors.push({ x, y: y-1, dir: 'top' });
-                if (x < mazeSize-1 && !maze[y][x+1].visited) neighbors.push({ x: x+1, y, dir: 'right' });
-                if (y < mazeSize-1 && !maze[y+1][x].visited) neighbors.push({ x, y: y+1, dir: 'bottom' });
-                if (x > 0 && !maze[y][x-1].visited) neighbors.push({ x: x-1, y, dir: 'left' });
-                if (neighbors.length > 0) {
-                    let next = neighbors[Math.floor(Math.random() * neighbors.length)];
-                    maze[current.y][current.x][next.dir] = false;
-                    if (next.dir === 'top') maze[next.y][next.x].bottom = false;
-                    if (next.dir === 'right') maze[next.y][next.x].left = false;
-                    if (next.dir === 'bottom') maze[next.y][next.x].top = false;
-                    if (next.dir === 'left') maze[next.y][next.x].right = false;
-                    maze[next.y][next.x].visited = true;
-                    stack.push(current);
-                    current = next;
-                } else { current = stack.pop(); }
-            }
-        }
-        
-        function drawMaze() {
-            const cellSize = mazeCanvas.width / mazeSize;
-            mazeCtx.fillStyle = '#1a1a2e';
-            mazeCtx.fillRect(0, 0, mazeCanvas.width, mazeCanvas.height);
-            mazeCtx.strokeStyle = '#667eea';
-            mazeCtx.lineWidth = 2;
-            for (let y = 0; y < mazeSize; y++) {
-                for (let x = 0; x < mazeSize; x++) {
-                    const cell = maze[y][x], px = x * cellSize, py = y * cellSize;
-                    mazeCtx.beginPath();
-                    if (cell.top) { mazeCtx.moveTo(px, py); mazeCtx.lineTo(px + cellSize, py); }
-                    if (cell.right) { mazeCtx.moveTo(px + cellSize, py); mazeCtx.lineTo(px + cellSize, py + cellSize); }
-                    if (cell.bottom) { mazeCtx.moveTo(px, py + cellSize); mazeCtx.lineTo(px + cellSize, py + cellSize); }
-                    if (cell.left) { mazeCtx.moveTo(px, py); mazeCtx.lineTo(px, py + cellSize); }
-                    mazeCtx.stroke();
-                }
-            }
-            const endX = (mazeSize - 1) * cellSize + cellSize / 2, endY = (mazeSize - 1) * cellSize + cellSize / 2;
-            mazeCtx.fillStyle = '#f093fb';
-            mazeCtx.beginPath();
-            mazeCtx.arc(endX, endY, cellSize / 3, 0, Math.PI * 2);
-            mazeCtx.fill();
-            mazeCtx.fillStyle = 'white';
-            mazeCtx.font = `${cellSize/2}px Arial`;
-            mazeCtx.textAlign = 'center';
-            mazeCtx.textBaseline = 'middle';
-            mazeCtx.fillText('🏁', endX, endY);
-        }
-        
-        function resetMazePlayer() {
-            player = { x: 0, y: 0 };
-            mazeSteps = 0;
-            updateMazeInfo();
-            drawMaze();
-            drawPlayer();
-            if (mazeTimer) clearInterval(mazeTimer);
-            mazeStartTime = Date.now();
-            mazeTimer = setInterval(updateMazeTime, 1000);
-        }
-        
-        function drawPlayer() {
-            const cellSize = mazeCanvas.width / mazeSize;
-            const px = player.x * cellSize + cellSize / 2, py = player.y * cellSize + cellSize / 2;
-            mazeCtx.fillStyle = '#00ff88';
-            mazeCtx.beginPath();
-            mazeCtx.arc(px, py, cellSize / 3, 0, Math.PI * 2);
-            mazeCtx.fill();
-            mazeCtx.shadowBlur = 10;
-            mazeCtx.shadowColor = '#00ff88';
-            mazeCtx.fill();
-            mazeCtx.shadowBlur = 0;
-        }
-        
-        function moveMaze(dir) {
-            let moved = false;
-            if (dir === 'up' && !maze[player.y][player.x].top) { player.y--; moved = true; }
-            if (dir === 'down' && !maze[player.y][player.x].bottom) { player.y++; moved = true; }
-            if (dir === 'left' && !maze[player.y][player.x].left) { player.x--; moved = true; }
-            if (dir === 'right' && !maze[player.y][player.x].right) { player.x++; moved = true; }
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
             
-            if (moved) {
-                mazeSteps++;
-                updateMazeInfo();
-                drawMaze();
-                drawPlayer();
-                
-                if (player.x === mazeSize - 1 && player.y === mazeSize - 1) {
-                    clearInterval(mazeTimer);
-                    setTimeout(() => {
-                        alert(`🎉 恭喜通关！\n步数：${mazeSteps}\n用时：${document.getElementById('mazeTime').textContent}`);
-                        mazeLevel++;
-                        document.getElementById('mazeLevel').textContent = mazeLevel;
-                        generateMaze();
-                        resetMazePlayer();
-                    }, 100);
-                }
-            }
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            const weekDay = weekDays[now.getDay()];
+            document.getElementById('date').textContent = `${year}-${month}-${day} ${weekDay}`;
         }
-        
-        function updateMazeInfo() {
-            document.getElementById('mazeLevel').textContent = mazeLevel;
-            document.getElementById('mazeSteps').textContent = mazeSteps;
-        }
-        
-        function updateMazeTime() {
-            const elapsed = Math.floor((Date.now() - mazeStartTime) / 1000);
-            const mins = Math.floor(elapsed / 60), secs = elapsed % 60;
-            document.getElementById('mazeTime').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-        
-        function newMaze() { generateMaze(); resetMazePlayer(); }
-        
-        function changeMazeLevel(delta) {
-            mazeLevel = Math.max(1, Math.min(10, mazeLevel + delta));
-            document.getElementById('mazeLevel').textContent = mazeLevel;
-            generateMaze();
-            resetMazePlayer();
-        }
-        
-        // ============ 贪吃蛇游戏 ============
-        let snakeCanvas, snakeCtx;
-        let snake = [], food = {}, direction = 'right', nextDirection = 'right';
-        let snakeInterval = null, snakeScore = 0, snakeBest = localStorage.getItem('snakeBest') || 0;
-        let snakeSpeed = 500;
-        
-        function initSnake() {
-            snakeCanvas = document.getElementById('snakeCanvas');
-            snakeCtx = snakeCanvas.getContext('2d');
-            const size = Math.min(window.innerWidth - 40, 500);
-            snakeCanvas.width = size;
-            snakeCanvas.height = size;
-            resetSnake();
-        }
-        
-        function resetSnake() {
-            const gridSize = 20, cols = Math.floor(snakeCanvas.width / gridSize), rows = Math.floor(snakeCanvas.height / gridSize);
-            snake = [{ x: Math.floor(cols / 2), y: Math.floor(rows / 2) }, { x: Math.floor(cols / 2) - 1, y: Math.floor(rows / 2) }, { x: Math.floor(cols / 2) - 2, y: Math.floor(rows / 2) }];
-            direction = 'right'; nextDirection = 'right';
-            snakeScore = 0; snakeSpeed = 500;
-            spawnFood(); updateSnakeInfo(); drawSnake();
-            if (snakeInterval) clearInterval(snakeInterval);
-            snakeInterval = null;
-            document.getElementById('snakeStartBtn').disabled = false;
-            document.getElementById('snakeStartBtn').textContent = '开始游戏';
-        }
-        
-        function startSnake() {
-            if (snakeInterval) return;
-            document.getElementById('snakeStartBtn').disabled = true;
-            document.getElementById('snakeStartBtn').textContent = '游戏中...';
-            snakeInterval = setInterval(gameLoop, snakeSpeed);
-        }
-        
-        function gameLoop() {
-            direction = nextDirection;
-            const head = { ...snake[0] };
-            if (direction === 'up') head.y--;
-            if (direction === 'down') head.y++;
-            if (direction === 'left') head.x--;
-            if (direction === 'right') head.x++;
-            const gridSize = 20, cols = snakeCanvas.width / gridSize, rows = snakeCanvas.height / gridSize;
-            if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows || snake.some(seg => seg.x === head.x && seg.y === head.y)) {
-                gameOver(); return;
-            }
-            snake.unshift(head);
-            if (head.x === food.x && head.y === food.y) {
-                snakeScore += 10; spawnFood(); updateSnakeInfo();
-                if (snakeSpeed > 150) { snakeSpeed -= 5; clearInterval(snakeInterval); snakeInterval = setInterval(gameLoop, snakeSpeed); }
-            } else { snake.pop(); }
-            drawSnake();
-        }
-        
-        function spawnFood() {
-            const gridSize = 20, cols = Math.floor(snakeCanvas.width / gridSize), rows = Math.floor(snakeCanvas.height / gridSize);
-            do { food = { x: Math.floor(Math.random() * cols), y: Math.floor(Math.random() * rows) }; }
-            while (snake.some(seg => seg.x === food.x && seg.y === food.y));
-        }
-        
-        function drawSnake() {
-            const gridSize = 20;
-            snakeCtx.fillStyle = '#1a1a2e';
-            snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-            snakeCtx.strokeStyle = 'rgba(102, 126, 234, 0.1)';
-            snakeCtx.lineWidth = 0.5;
-            for (let x = 0; x <= snakeCanvas.width; x += gridSize) { snakeCtx.beginPath(); snakeCtx.moveTo(x, 0); snakeCtx.lineTo(x, snakeCanvas.height); snakeCtx.stroke(); }
-            for (let y = 0; y <= snakeCanvas.height; y += gridSize) { snakeCtx.beginPath(); snakeCtx.moveTo(0, y); snakeCtx.lineTo(snakeCanvas.width, y); snakeCtx.stroke(); }
-            snakeCtx.fillStyle = '#ff6b6b';
-            snakeCtx.shadowBlur = 15; snakeCtx.shadowColor = '#ff6b6b';
-            snakeCtx.beginPath();
-            snakeCtx.arc(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2, gridSize / 2 - 2, 0, Math.PI * 2);
-            snakeCtx.fill(); snakeCtx.shadowBlur = 0;
-            snake.forEach((seg, i) => {
-                const alpha = 1 - (i / snake.length) * 0.5;
-                snakeCtx.fillStyle = i === 0 ? '#00ff88' : `rgba(0, 255, 136, ${alpha})`;
-                snakeCtx.shadowBlur = i === 0 ? 15 : 0; snakeCtx.shadowColor = '#00ff88';
-                snakeCtx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
-            });
-            snakeCtx.shadowBlur = 0;
-        }
-        
-        function changeSnakeDir(dir) {
-            const opposites = { up: 'down', down: 'up', left: 'right', right: 'left' };
-            if (dir !== opposites[direction]) nextDirection = dir;
-        }
-        
-        function updateSnakeInfo() {
-            document.getElementById('snakeScore').textContent = snakeScore;
-            document.getElementById('snakeBest').textContent = snakeBest;
-            document.getElementById('snakeLength').textContent = snake.length;
-        }
-        
-        function gameOver() {
-            clearInterval(snakeInterval); snakeInterval = null;
-            if (snakeScore > snakeBest) { snakeBest = snakeScore; localStorage.setItem('snakeBest', snakeBest); }
-            updateSnakeInfo();
-            alert(`💀 游戏结束！\n得分：${snakeScore}\n长度：${snake.length}\n最高分：${snakeBest}`);
-            document.getElementById('snakeStartBtn').disabled = false;
-            document.getElementById('snakeStartBtn').textContent = '开始游戏';
-        }
-        
-        // 键盘控制
-        document.addEventListener('keydown', (e) => {
-            if (document.getElementById('mazeModal').classList.contains('active')) {
-                if (e.key === 'ArrowUp') moveMaze('up');
-                if (e.key === 'ArrowDown') moveMaze('down');
-                if (e.key === 'ArrowLeft') moveMaze('left');
-                if (e.key === 'ArrowRight') moveMaze('right');
-            }
-            if (document.getElementById('snakeModal').classList.contains('active')) {
-                if (e.key === 'ArrowUp') changeSnakeDir('up');
-                if (e.key === 'ArrowDown') changeSnakeDir('down');
-                if (e.key === 'ArrowLeft') changeSnakeDir('left');
-                if (e.key === 'ArrowRight') changeSnakeDir('right');
-            }
-        });
-        
-        // 触摸控制
-        let touchStartX = 0, touchStartY = 0;
-        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; });
-        document.addEventListener('touchend', (e) => {
-            if (!document.getElementById('mazeModal').classList.contains('active') && !document.getElementById('snakeModal').classList.contains('active')) return;
-            const dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY;
-            if (Math.abs(dx) > Math.abs(dy)) {
-                if (Math.abs(dx) > 30) {
-                    if (document.getElementById('mazeModal').classList.contains('active')) moveMaze(dx > 0 ? 'right' : 'left');
-                    else changeSnakeDir(dx > 0 ? 'right' : 'left');
-                }
-            } else {
-                if (Math.abs(dy) > 30) {
-                    if (document.getElementById('mazeModal').classList.contains('active')) moveMaze(dy > 0 ? 'down' : 'up');
-                    else changeSnakeDir(dy > 0 ? 'down' : 'up');
-                }
-            }
-        });
-        
-        // 点击背景关闭
-        document.querySelectorAll('.game-modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeGame(modal.id === 'mazeModal' ? 'maze' : 'snake');
-            });
-        });
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
