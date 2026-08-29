@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GQ - 个人导航</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --card-hover: rgba(255, 255, 255, 0.15);
+            --accent: #00d4ff;
+            --accent2: #7b2cbf;
+            --glow: rgba(0, 212, 255, 0.5);
+            --card-bg: rgba(255, 255, 255, 0.1);
             --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --accent: #e94560;
-            --glow: rgba(233, 69, 96, 0.4);
+            --text-secondary: rgba(255, 255, 255, 0.8);
         }
         body {
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Noto Sans SC', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -27,92 +26,137 @@
             padding: 2rem;
             color: var(--text-primary);
             overflow-x: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10,10,30,0.7) 0%, rgba(20,10,40,0.6) 50%, rgba(10,20,50,0.7) 100%);
+            z-index: -1;
+        }
+        /* 时间显示 - 顶部中央 */
+        .time-display {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 100;
+        }
+        .time-display .time {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--glow), 0 0 40px var(--glow);
+        }
+        .time-display .date {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+            letter-spacing: 0.1em;
         }
         .header {
             text-align: center;
             margin-bottom: 3rem;
+            margin-top: 6rem;
         }
         .header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 300;
-            letter-spacing: 0.3em;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #fff, #e94560);
+            letter-spacing: 0.2em;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px var(--glow);
         }
         .header p {
             color: var(--text-secondary);
-            font-size: 1rem;
-            letter-spacing: 0.2em;
+            font-size: 0.95rem;
+            letter-spacing: 0.3em;
+            margin-top: 0.5rem;
         }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            max-width: 1000px;
+            gap: 2rem;
+            max-width: 1100px;
             width: 100%;
+            padding-bottom: 4rem;
         }
         .card {
             position: relative;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05));
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.3s ease;
+            border-radius: 24px;
         }
         .card:hover::before { opacity: 1; }
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: var(--card-hover);
+            transform: translateY(-12px) scale(1.03);
             border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--glow);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow), inset 0 1px 0 rgba(255,255,255,0.2);
         }
         .card.active {
-            transform: scale(1.05);
+            transform: scale(1.08);
             z-index: 100;
             pointer-events: none;
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 50px var(--glow);
         }
         .card-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            border-radius: 20px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 1.2rem;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             transition: all 0.4s ease;
+            position: relative;
         }
         .card:hover .card-icon {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) rotate(8deg);
         }
         .card.active .card-icon {
             transform: scale(0);
             opacity: 0;
         }
-        .icon-vnc { background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
-        .icon-alist { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4); }
-        .icon-wiki { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
-        .icon-adb { background: linear-gradient(135deg, #43e97b, #38f9d7); box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4); }
+        .icon-vnc { background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5); }
+        .icon-alist { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 15px 35px rgba(240, 147, 251, 0.5); }
+        .icon-wiki { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 15px 35px rgba(79, 172, 254, 0.5); }
+        .icon-adb { background: linear-gradient(135deg, #43e97b, #38f9d7); box-shadow: 0 15px 35px rgba(67, 233, 123, 0.5); }
+        .icon-vpn { background: linear-gradient(135deg, #fa709a, #fee140); box-shadow: 0 15px 35px rgba(250, 112, 154, 0.5); }
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.4rem;
             transition: all 0.3s ease;
         }
         .card.active .card-title {
@@ -120,7 +164,7 @@
             transform: translateY(-20px);
         }
         .card-desc {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             transition: all 0.3s ease;
         }
@@ -136,7 +180,8 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 1rem;
+            padding: 1.2rem;
+            gap: 0.8rem;
         }
         .card.active .expanded-menu {
             opacity: 1;
@@ -148,13 +193,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
             text-decoration: none;
             color: var(--text-primary);
             transition: all 0.3s ease;
-            transform: translateY(20px);
+            transform: translateY(25px);
             opacity: 0;
         }
         .card.active .menu-item {
@@ -164,47 +211,27 @@
         .card.active .menu-item:nth-child(1) { transition-delay: 0.1s; }
         .card.active .menu-item:nth-child(2) { transition-delay: 0.2s; }
         .menu-item:hover {
-            background: rgba(233, 69, 96, 0.3);
+            background: rgba(0, 212, 255, 0.25);
+            border-color: var(--accent);
             transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         }
         .menu-item i {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--accent);
         }
         .menu-item span {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
-        }
-        /* 时间显示 */
-        .time-display {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            text-align: right;
-        }
-        .time-display .time {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-        }
-        .time-display .date {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        /* 底部信息 */
-        .footer {
-            position: fixed;
-            bottom: 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+            letter-spacing: 0.05em;
         }
         /* 点击遮罩 */
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -214,28 +241,39 @@
             opacity: 1;
             visibility: visible;
         }
+        /* 底部信息 */
+        .footer {
+            position: fixed;
+            bottom: 2.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
         @media (max-width: 768px) {
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .card { padding: 1.5rem 1rem; }
-            .card-icon { width: 60px; height: 60px; font-size: 2rem; }
-            .header h1 { font-size: 2rem; }
-            .time-display { top: 1rem; right: 1rem; }
-            .time-display .time { font-size: 1.5rem; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+            .card { padding: 1.8rem 1rem; }
+            .card-icon { width: 70px; height: 70px; font-size: 2.2rem; }
+            .header h1 { font-size: 1.8rem; }
+            .header { margin-top: 5rem; }
+            .time-display .time { font-size: 2rem; }
         }
         @media (max-width: 480px) {
-            .grid { grid-template-columns: 1fr; }
+            .grid { grid-template-columns: 1fr; gap: 1rem; }
+            .header { margin-top: 4rem; }
         }
     </style>
 </head>
-<body>
+<body style="background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg');">
+    <!-- 时间显示 -->
     <div class="time-display">
-        <div class="time" id="time">00:00</div>
+        <div class="time" id="time">00:00:00</div>
         <div class="date" id="date">加载中...</div>
     </div>
     
     <div class="header">
-        <h1>GQ</h1>
-        <p>个人导航中心</p>
+        <h1>GQ·个人导航栏</h1>
+        <p>Personal Navigation Center</p>
     </div>
     
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
@@ -249,11 +287,11 @@
             <div class="card-title">VNC 远控</div>
             <div class="card-desc">远程桌面控制</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item">
+                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item">
+                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -268,11 +306,11 @@
             <div class="card-title">私人网盘</div>
             <div class="card-desc">Alist 文件管理</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:5244" target="_blank" class="menu-item">
+                <a href="http://100.96.22.89:5244" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:5244" target="_blank" class="menu-item">
+                <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -287,11 +325,11 @@
             <div class="card-title">维基百科</div>
             <div class="card-desc">知识搜索</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item">
+                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-globe"></i>
                     <span>外网访问</span>
                 </a>
-                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item">
+                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item" onclick="event.stopPropagation()">
                     <i class="fas fa-home"></i>
                     <span>内网访问</span>
                 </a>
@@ -305,6 +343,15 @@
             </div>
             <div class="card-title">ADB 助手</div>
             <div class="card-desc">密码: 1234</div>
+        </div>
+        
+        <!-- 虚拟局域网 -->
+        <div class="card" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234', '_blank')">
+            <div class="card-icon icon-vpn">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div class="card-title">虚拟局域网</div>
+            <div class="card-desc"> LanProxy 组网</div>
         </div>
     </div>
     
@@ -325,7 +372,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
             const weekDay = weekDays[now.getDay()];
-            document.getElementById('date').textContent = `${year}-${month}-${day} ${weekDay}`;
+            document.getElementById('date').textContent = `${year}年${month}月${day}日 ${weekDay}`;
         }
         
         function toggleCard(cardId) {
@@ -333,10 +380,8 @@
             const overlay = document.getElementById('overlay');
             const isActive = card.classList.contains('active');
             
-            // 关闭所有其他卡片
             closeAll();
             
-            // 如果当前卡片未激活，则激活它
             if (!isActive) {
                 card.classList.add('active');
                 overlay.classList.add('active');
