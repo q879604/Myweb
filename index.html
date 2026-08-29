@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GQ - 个人导航</title>
+    <title>WQ - 导航</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --accent: #00d4ff; --glow: rgba(0,212,255,0.5); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.7); }
         body { font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: var(--text-primary); padding-top: 100px; padding-bottom: 80px; }
-        body.light-mode { background-image: url('【哲风壁纸】夜景-日照金山-星空.jpg'); background-color: #f5f5f5; }
+        body.light-mode { background-color: #f5f5f5; }
         body.light-mode::before { background: rgba(245,245,245,0.9); }
         body.light-mode .card { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); }
-        body.light-mode .card-icon { filter: brightness(0.8); }
         body.light-mode .card-title { color: #333; }
         body.light-mode .card-desc { color: #666; }
         body.light-mode .menu-item { background: rgba(255,255,255,0.5); color: #333; }
@@ -93,20 +92,20 @@
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
-            <svg id="theme-icon" viewBox="0 0 24 24">
-                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/>
-            </svg>
-        </button>
+        <svg id="theme-icon" viewBox="0 0 24 24">
+            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/>
+        </svg>
+    </button>
     <div class="time-display"><a href="https://beijingshijian.net/" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="time" id="time">00:00:00</div><div class="date" id="date">加载中...</div></a></div>
-    <div class="header"><h1>GQ·个人导航栏</h1><p>Personal Navigation Center</p></div>
+    <div class="header"><h1>WQ·导航栏</h1><p>Personal Navigation Center</p></div>
     <div class="grid">
-        <div class="card" id="vnc-card" onclick="toggleCard('vnc-card')">
-            <div class="card-icon icon-vnc"><i class="fas fa-desktop"></i></div>
-            <div class="card-title">VNC 远控</div>
-            <div class="card-desc">远程桌面控制</div>
+        <div class="card" id="wiki-card" onclick="toggleCard('wiki-card')">
+            <div class="card-icon icon-wiki"><i class="fab fa-wikipedia-w"></i></div>
+            <div class="card-title">维基百科</div>
+            <div class="card-desc">知识搜索</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
-                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
+                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
+                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
         </div>
         <div class="card" id="alist-card" onclick="toggleCard('alist-card')">
@@ -118,13 +117,13 @@
                 <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
         </div>
-        <div class="card" id="wiki-card" onclick="toggleCard('wiki-card')">
-            <div class="card-icon icon-wiki"><i class="fab fa-wikipedia-w"></i></div>
-            <div class="card-title">维基百科</div>
-            <div class="card-desc">知识搜索</div>
+        <div class="card" id="vnc-card" onclick="toggleCard('vnc-card')">
+            <div class="card-icon icon-vnc"><i class="fas fa-desktop"></i></div>
+            <div class="card-title">VNC 远控</div>
+            <div class="card-desc">远程桌面控制</div>
             <div class="expanded-menu">
-                <a href="http://100.96.22.89:8080" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
-                <a href="http://192.168.124.11:8080" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
+                <a href="http://100.96.22.89:5456/vnc.html?autoconnect=true&show_dot=true&host=100.96.22.89&port=5556" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
+                <a href="http://192.168.124.11:5456/vnc.html?autoconnect=true&show_dot=true&host=192.168.124.11&port=5556" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
         </div>
         <div class="card has-submenu" onclick="window.open('https://wwayw.lanzoub.com/b01euqiwwf','_blank')">
@@ -132,13 +131,13 @@
             <div class="card-title">ADB 助手</div>
             <div class="card-desc">密码: 1234</div>
         </div>
-        <div class="card has-submenu" onclick="window.open('https://lz.qaiu.top/lz/iMITd458dhzi@1234','_blank')">
+        <div class="card has-submenu" onclick="window.open('https://wwayw.lanzoub.com/iMITd458dhzi','_blank')">
             <div class="card-icon icon-vpn"><i class="fas fa-network-wired"></i></div>
             <div class="card-title">虚拟局域网</div>
-            <div class="card-desc">LanProxy 组网</div>
+            <div class="card-desc">Tailscale组网</div>
         </div>
     </div>
-    <div class="footer"><p>© 2026 GQ · Personal Navigation</p></div>
+    <div class="footer"><p>© 2026 WQ · Personal Navigation</p></div>
     <script>
         function updateTime() { const n=new Date(); document.getElementById('time').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0'); const d=['日','一','二','三','四','五','六'][n.getDay()]; document.getElementById('date').textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日 星期'+d; }
         function toggleCard(id) { const c=document.getElementById(id); const isAct=c.classList.contains('active'); document.querySelectorAll('.card').forEach(x=>x.classList.remove('active')); if(!isAct) c.classList.add('active'); }
@@ -152,7 +151,6 @@
                 : '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/></svg>';
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         }
-        // 加载保存的主题
         (function() {
             const savedTheme = localStorage.getItem('theme');
             const btn = document.querySelector('.theme-toggle');
@@ -170,7 +168,6 @@
                 document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
                 clickedCard.classList.add('active');
             }
-            // 点击卡片边缘空隙也可以关闭菜单
             if (clickedCard && clickedCard.classList.contains('active')) {
                 const menuRect = clickedCard.querySelector('.expanded-menu').getBoundingClientRect();
                 if (e.clientX < menuRect.left || e.clientX > menuRect.right || 
@@ -184,7 +181,6 @@
                 }, 300);
             }
         });
-        // 添加点击效果
         document.querySelectorAll('.card.has-submenu').forEach(card => {
             card.addEventListener('mousedown', function() {
                 this.style.transform = 'scale(1.08)';
