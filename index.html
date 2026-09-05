@@ -9,7 +9,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
         :root { --accent: #00d4ff; --glow: rgba(0,212,255,0.5); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.7); }
-        body { font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; background-image: url('zhefen.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: var(--text-primary); padding-top: 100px; padding-bottom: 80px; }
+        body { font-family: 'Microsoft YaHei', sans-serif; min-height: 100vh; background-image: url('zhefen.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: var(--text-primary); padding-top: 40px; padding-bottom: 80px; }
         body.light-mode { background-color: #f5f5f5; }
         body.light-mode::before { background: rgba(245,245,245,0.9); }
         body.light-mode .card { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); }
@@ -55,13 +55,16 @@
         body.light-mode .theme-toggle:hover {
             background: rgba(0,0,0,0.12);
         }
-        .time-display { text-align: center; margin-bottom: 2rem; }
+        .time-display { text-align: center; margin-bottom: 1.2rem; }
         .time-display .time { font-family: 'Orbitron', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent); text-shadow: 0 0 15px var(--glow); animation: pulse-glow 3s ease-in-out infinite; }
         .time-display .date { font-size: 1rem; color: var(--text-secondary); margin-top: 0.3rem; }
-        .header { text-align: center; margin-bottom: 3rem; }
-        .header h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: 0.2em; background: linear-gradient(135deg, #fff, var(--accent), #fff, var(--accent)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-flow 3s ease infinite; }
-        .header p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; letter-spacing: 0.3em; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+        .header { text-align: center; margin-bottom: 0.2rem; }
+        .header h1 { font-size: 1.4rem; font-weight: 300; letter-spacing: 0.2em; background: linear-gradient(135deg, #fff, var(--accent), #fff, var(--accent)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-flow 3s ease infinite; }
+        .header p { color: var(--text-secondary); font-size: 0.65rem; margin-top: 0.15rem; letter-spacing: 0.3em; }
+        .greeting { text-align: center; margin-bottom: 0.6rem; }
+        .greeting-text { display: inline-block; font-size: 2.2rem; font-weight: 700; letter-spacing: 0.3em; background: linear-gradient(135deg, #fff 0%, var(--accent) 35%, #fff 65%, var(--accent) 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-flow 4s ease infinite, greeting-pop 2s ease-out; text-shadow: 0 0 30px rgba(0,212,255,0.4), 0 4px 20px rgba(0,0,0,0.3); filter: drop-shadow(0 2px 8px rgba(0,212,255,0.2)); transform: translateX(0.55em) translateY(0.05em); }
+        @keyframes greeting-pop { 0% { opacity: 0; transform: scale(0.8) translateY(20px) translateX(0.55em); } 50% { transform: scale(1.05) translateY(-5px) translateX(0.55em); } 100% { opacity: 1; transform: scale(1) translateY(0.05em) translateX(0.55em); } }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0.8rem auto 0; padding: 0 1rem; }
         .card { position: relative; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; overflow: visible; animation: card-appear 0.5s ease-out backwards; will-change: transform; }
         .card:hover { transform: scale(1.03); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card:active { transform: scale(1.06); border-color: var(--accent); box-shadow: 0 12px 28px rgba(0,0,0,0.4); transition: transform 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease; }
@@ -78,6 +81,7 @@
         .icon-vpn { background: linear-gradient(135deg, #fa709a, #fee140); }
         .icon-ip { background: linear-gradient(135deg, #f7971e, #ffd200); }
         .icon-checkin { background: linear-gradient(135deg, #FC466B, #3F5EFB); }
+.icon-ai { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
         .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.3rem; transition: opacity 0.3s ease, transform 0.3s ease; }
         .card.active .card-title { opacity: 0; transform: translateY(-20px); }
         .card-desc { font-size: 0.85rem; color: var(--text-secondary); transition: opacity 0.3s ease; }
@@ -100,6 +104,7 @@
         .card:nth-child(6) { animation-delay: 0.28s; }
         .card:nth-child(7) { animation-delay: 0.33s; }
         .card:nth-child(8) { animation-delay: 0.38s; }
+        .card:nth-child(9) { animation-delay: 0.43s; }
         @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; } .card { padding: 1.8rem 1rem; } .card-icon { width: 65px; height: 65px; font-size: 2rem; } .header h1 { font-size: 1.8rem; } .time-display .time { font-size: 2rem; } }
         @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
     </style>
@@ -112,6 +117,7 @@
     </button>
     <div class="time-display"><a href="https://beijingshijian.net/" target="_blank" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="time" id="time">00:00:00</div><div class="date" id="date">加载中...</div></a></div>
     <div class="header"><h1>WQ·导航栏</h1><p>Personal Navigation Center</p></div>
+    <div class="greeting"><span class="greeting-text">你好！</span></div>
     <div class="grid">
         <div class="card" id="wiki-card" onclick="toggleCard('wiki-card')">
             <div class="card-icon icon-wiki"><i class="fab fa-wikipedia-w"></i></div>
@@ -130,6 +136,11 @@
                 <a href="http://100.96.22.89:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
                 <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
+        </div>
+        <div class="card has-submenu" onclick="window.open('https://www.chatopens.com/Web/List.html','_blank')">
+            <div class="card-icon icon-ai"><i class="fas fa-brain"></i></div>
+            <div class="card-title">人工智能</div>
+            <div class="card-desc">ChatAi</div>
         </div>
         <div class="card has-submenu" onclick="window.open('signin.html','_blank')">
             <div class="card-icon icon-checkin"><i class="fas fa-calendar-check"></i></div>
