@@ -137,10 +137,14 @@
                 <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
         </div>
-        <div class="card has-submenu" onclick="window.open('https://www.chatopens.com/Web/List.html','_blank')">
+        <div class="card" id="ai-card" onclick="toggleCard('ai-card')">
             <div class="card-icon icon-ai"><i class="fas fa-brain"></i></div>
             <div class="card-title">人工智能</div>
             <div class="card-desc">ChatAi</div>
+            <div class="expanded-menu">
+                <a href="https://www.chatopens.com/Web/List.html" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-cube"></i><span>聚合</span></a>
+                <a href="https://chat.scnet.cn" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-server"></i><span>国家超算平台</span></a>
+            </div>
         </div>
         <div class="card has-submenu" onclick="window.open('signin.html','_blank')">
             <div class="card-icon icon-checkin"><i class="fas fa-calendar-check"></i></div>
@@ -171,7 +175,7 @@
             <div class="card-title">虚拟局域网</div>
             <div class="card-desc">Tailscale组网</div>
         </div>
-        <div class="card has-submenu" onclick="window.open('https://wwayw.lanzoub.com/i0d3Y459d5da','_blank')">
+        <div class="card has-submenu" onclick="window.open('https://wwayw.lanzoub.com/b01eur65fa','_blank')">
             <div class="card-icon icon-download"><i class="fas fa-download"></i></div>
             <div class="card-title">网站APP下载</div>
             <div class="card-desc">悄悄告诉你 其实是网页套壳</div>
