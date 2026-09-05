@@ -77,6 +77,7 @@
         .icon-download { background: linear-gradient(135deg, #43e97b, #38f9d7); }
         .icon-vpn { background: linear-gradient(135deg, #fa709a, #fee140); }
         .icon-ip { background: linear-gradient(135deg, #f7971e, #ffd200); }
+        .icon-checkin { background: linear-gradient(135deg, #FC466B, #3F5EFB); }
         .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.3rem; transition: all 0.3s ease; }
         .card.active .card-title { opacity: 0; transform: translateY(-20px); }
         .card-desc { font-size: 0.85rem; color: var(--text-secondary); transition: all 0.3s ease; }
@@ -118,6 +119,11 @@
                 <a href="http://100.96.22.89:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-globe"></i><span>外网访问</span></a>
                 <a href="http://192.168.124.11:5244" target="_blank" class="menu-item" onclick="closeAll()"><i class="fas fa-home"></i><span>内网访问</span></a>
             </div>
+        </div>
+        <div class="card has-submenu" onclick="window.open('signin.html','_blank')">
+            <div class="card-icon icon-checkin"><i class="fas fa-calendar-check"></i></div>
+            <div class="card-title">签到</div>
+            <div class="card-desc">每日打卡</div>
         </div>
         <div class="card" id="vnc-card" onclick="toggleCard('vnc-card')">
             <div class="card-icon icon-vnc"><i class="fas fa-desktop"></i></div>
