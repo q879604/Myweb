@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
         :root { --accent: #00d4ff; --glow: rgba(0,212,255,0.5); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.7); }
         body {
             font-family: 'Microsoft YaHei', sans-serif;
@@ -22,7 +22,7 @@
         }
         body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,10,30,0.55); z-index: -1; }
         .time-display { text-align: center; margin-bottom: 2rem; }
-        .time-display .time { font-family: 'Orbitron', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent); text-shadow: 0 0 20px var(--glow), 0 0 40px rgba(0,212,255,0.3); animation: pulse-glow 2s ease-in-out infinite; }
+        .time-display .time { font-family: 'Orbitron', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent); text-shadow: 0 0 15px var(--glow); animation: pulse-glow 3s ease-in-out infinite; }
         .time-display .date { font-size: 1rem; color: var(--text-secondary); margin-top: 0.3rem; }
         .time-display a { text-decoration: none; color: inherit; cursor: pointer; }
         .time-display a:hover .time { opacity: 0.8; }
@@ -52,45 +52,47 @@
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 16px;
             padding: 1.2rem 1.5rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.8rem;
-            animation: card-appear 0.6s ease-out backwards;
+            animation: card-appear 0.5s ease-out backwards;
+            will-change: transform;
         }
-        .checkin-item:nth-child(1) { animation-delay: 0.05s; }
-        .checkin-item:nth-child(2) { animation-delay: 0.18s; }
-        .checkin-item:nth-child(3) { animation-delay: 0.31s; }
+        .checkin-item:nth-child(1) { animation-delay: 0.03s; }
+        .checkin-item:nth-child(2) { animation-delay: 0.13s; }
+        .checkin-item:nth-child(3) { animation-delay: 0.23s; }
         .checkin-item:hover {
             background: rgba(0,212,255,0.25);
             border-color: var(--accent);
-            transform: scale(1.04);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3), 0 0 25px var(--glow);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         .checkin-item:active {
-            transform: scale(1.08);
+            transform: scale(1.06);
             border-color: var(--accent);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 35px var(--glow);
-            transition: all 0.12s ease;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+            transition: transform 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease;
         }
         .checkin-item:active .checkin-icon {
-            transform: scale(1.2) rotate(12deg);
+            transform: scale(1.12) rotate(8deg);
         }
         .checkin-icon {
             font-size: 1.5rem;
             color: var(--accent);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s ease;
+            will-change: transform;
         }
         .checkin-item:hover .checkin-icon {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.08) rotate(4deg);
         }
         .checkin-item .name { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.05em; }
         .footer { text-align: center; margin-top: 2.5rem; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.1em; }
-        @keyframes pulse-glow { 0%,100% { text-shadow: 0 0 20px var(--glow), 0 0 40px rgba(0,212,255,0.3); } 50% { text-shadow: 0 0 35px var(--glow), 0 0 70px rgba(0,212,255,0.6), 0 0 100px rgba(0,212,255,0.2); } }
+        @keyframes pulse-glow { 0%,100% { text-shadow: 0 0 15px var(--glow); } 50% { text-shadow: 0 0 25px var(--glow), 0 0 50px rgba(0,212,255,0.3); } }
         @keyframes gradient-flow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        @keyframes card-appear { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes card-appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) {
             .checkin-wrap { padding: 1.2rem; gap: 1rem; }
             .checkin-item { min-width: 100%; padding: 0.9rem 1rem; }
